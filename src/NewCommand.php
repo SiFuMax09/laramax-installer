@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Installer\Console;
+namespace Laramax\Installer\Console;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Composer;
@@ -39,7 +39,7 @@ class NewCommand extends Command
     {
         $this
             ->setName('new')
-            ->setDescription('Create a new Laravel application')
+            ->setDescription('Create a new Laramax application')
             ->addArgument('name', InputArgument::REQUIRED)
             ->addOption('dev', null, InputOption::VALUE_NONE, 'Installs the latest "development" release')
             ->addOption('git', null, InputOption::VALUE_NONE, 'Initialize a Git repository')
@@ -77,11 +77,10 @@ class NewCommand extends Command
         $this->configurePrompts($input, $output);
 
         $output->write(PHP_EOL.'  <fg=red> _                               _
-  | |                             | |
-  | |     __ _ _ __ __ ___   _____| |
-  | |    / _` | \'__/ _` \ \ / / _ \ |
-  | |___| (_| | | | (_| |\ V /  __/ |
-  |______\__,_|_|  \__,_| \_/ \___|_|</>'.PHP_EOL.PHP_EOL);
+        __                                 
+        / /  ___ ________ _  __ _  ___ ___ __
+       / /__/ _ `/ __/ _ `/ /  \' \\/ _ `/\\ \\ /
+      /____/\\_,_/_/  \\_,_/ /_/_/_/\\_,_//_\\_\\ </>'.PHP_EOL.PHP_EOL);
 
         if (! $input->getArgument('name')) {
             $input->setArgument('name', text(
@@ -92,40 +91,6 @@ class NewCommand extends Command
                     ? 'The name may only contain letters, numbers, dashes, underscores, and periods.'
                     : null,
             ));
-        }
-
-        if (! $input->getOption('breeze') && ! $input->getOption('jet')) {
-            match (select(
-                label: 'Would you like to install a starter kit?',
-                options: [
-                    'none' => 'No starter kit',
-                    'breeze' => 'Laravel Breeze',
-                    'jetstream' => 'Laravel Jetstream',
-                ],
-                default: 'none',
-            )) {
-                'breeze' => $input->setOption('breeze', true),
-                'jetstream' => $input->setOption('jet', true),
-                default => null,
-            };
-        }
-
-        if ($input->getOption('breeze')) {
-            $this->promptForBreezeOptions($input);
-        } elseif ($input->getOption('jet')) {
-            $this->promptForJetstreamOptions($input);
-        }
-
-        if (! $input->getOption('phpunit') && ! $input->getOption('pest')) {
-            $input->setOption('pest', select(
-                label: 'Which testing framework do you prefer?',
-                options: ['Pest', 'PHPUnit'],
-                default: 'Pest',
-            ) === 'Pest');
-        }
-
-        if (! $input->getOption('git') && $input->getOption('github') === false && Process::fromShellCommandline('git --version')->run() === 0) {
-            $input->setOption('git', confirm(label: 'Would you like to initialize a Git repository?', default: false));
         }
     }
 
@@ -160,7 +125,7 @@ class NewCommand extends Command
         $composer = $this->findComposer();
 
         $commands = [
-            $composer." create-project laravel/laravel \"$directory\" $version --remove-vcs --prefer-dist",
+            $composer." create-project laramax/laramax \"$directory\" $version --remove-vcs --prefer-dist",
         ];
 
         if ($directory != '.' && $input->getOption('force')) {
@@ -383,61 +348,9 @@ class NewCommand extends Command
         );
     }
 
-    /**
-     * Install Laravel Breeze into the application.
-     *
-     * @param  string  $directory
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @return void
-     */
-    protected function installBreeze(string $directory, InputInterface $input, OutputInterface $output)
-    {
-        $commands = array_filter([
-            $this->findComposer().' require laravel/breeze',
-            trim(sprintf(
-                $this->phpBinary().' artisan breeze:install %s %s %s %s %s',
-                $input->getOption('stack'),
-                $input->getOption('typescript') ? '--typescript' : '',
-                $input->getOption('pest') ? '--pest' : '',
-                $input->getOption('dark') ? '--dark' : '',
-                $input->getOption('ssr') ? '--ssr' : '',
-            )),
-        ]);
+    
 
-        $this->runCommands($commands, $input, $output, workingPath: $directory);
-
-        $this->commitChanges('Install Breeze', $directory, $input, $output);
-    }
-
-    /**
-     * Install Laravel Jetstream into the application.
-     *
-     * @param  string  $directory
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @return void
-     */
-    protected function installJetstream(string $directory, InputInterface $input, OutputInterface $output)
-    {
-        $commands = array_filter([
-            $this->findComposer().' require laravel/jetstream',
-            trim(sprintf(
-                $this->phpBinary().' artisan jetstream:install %s %s %s %s %s %s %s',
-                $input->getOption('stack'),
-                $input->getOption('api') ? '--api' : '',
-                $input->getOption('dark') ? '--dark' : '',
-                $input->getOption('teams') ? '--teams' : '',
-                $input->getOption('pest') ? '--pest' : '',
-                $input->getOption('verification') ? '--verification' : '',
-                $input->getOption('ssr') ? '--ssr' : '',
-            )),
-        ]);
-
-        $this->runCommands($commands, $input, $output, workingPath: $directory);
-
-        $this->commitChanges('Install Jetstream', $directory, $input, $output);
-    }
+    
 
     /**
      * Determine the default database connection.
@@ -627,7 +540,7 @@ class NewCommand extends Command
     }
 
     /**
-     * Create a Git repository and commit the base Laravel skeleton.
+     * Create a Git repository and commit the base Laramax skeleton.
      *
      * @param  string  $directory
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
@@ -641,7 +554,7 @@ class NewCommand extends Command
         $commands = [
             'git init -q',
             'git add .',
-            'git commit -q -m "Set up a fresh Laravel app"',
+            'git commit -q -m "Set up a fresh Laramax app"',
             "git branch -M {$branch}",
         ];
 

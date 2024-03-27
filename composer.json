@@ -1,12 +1,12 @@
 {
-    "name": "laravel/installer",
-    "description": "Laravel application installer.",
+    "name": "laramax/installer",
+    "description": "Laramax application installer.",
     "keywords": ["laravel"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Taylor Otwell",
-            "email": "taylor@laravel.com"
+            "name": "Max Witt",
+            "email": "me@max-witt.de"
         }
     ],
     "require": {
@@ -22,7 +22,7 @@
         "phpunit/phpunit": "^10.4"
     },
     "bin": [
-        "bin/laravel"
+        "bin/laramax"
     ],
     "autoload": {
         "psr-4": {
