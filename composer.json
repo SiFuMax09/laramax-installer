@@ -1,7 +1,7 @@
 {
     "name": "laramax/installer",
     "description": "Laramax application installer.",
-    "keywords": ["laravel"],
+    "keywords": ["laramax"],
     "license": "MIT",
     "authors": [
         {
