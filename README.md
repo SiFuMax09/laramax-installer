@@ -1,13 +1,9 @@
-# Laravel Installer
+# Laramax Installer
 
-<a href="https://github.com/laravel/installer/actions"><img src="https://github.com/laravel/installer/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/installer"><img src="https://img.shields.io/packagist/dt/laravel/installer" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/installer"><img src="https://img.shields.io/packagist/v/laravel/installer" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/installer"><img src="https://img.shields.io/packagist/l/laravel/installer" alt="License"></a>
 
 ## Official Documentation
 
-Documentation for installing Laravel can be found on the [Laravel website](https://laravel.com/docs#creating-a-laravel-project).
+Create a new project with laramax
 
 ## Contributing
 
